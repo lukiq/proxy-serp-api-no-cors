@@ -1,15 +1,7 @@
 const axios = require('axios');
 const htmlparser2 = require("htmlparser2");
 
-const respArray = []
 
-const parser = new htmlparser2.Parser({
-    onopentag(name, attributes) {
-        if (name === "img") {
-            respArray.push(attributes)
-        }
-    },
-});
 
 // const config = {
 //     method: 'GET',
@@ -18,28 +10,46 @@ const parser = new htmlparser2.Parser({
 // };
 
 var routes = function(app, request) {
+    
 
     app.options('/*', function(req, res) {
         res.status(200);
         res.send({});
     });
 
-    app.get('/content_images', function(req, res) {
-        axios({
+    app.get('/content_images', async (req, res) => {
+        let respArray = []
+
+let parser = new htmlparser2.Parser({
+    onopentag(name, attributes) {
+        if (name === "img") {
+            respArray.push(attributes)
+        }
+    },
+});
+        
+        let config = {
             method: 'GET',
             url: req.query.url,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(function(response) {
-                parser.write(response.data);
-                parser.end();
-                res.send(respArray)
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+            headers: {}
+        }
+        
+
+        
+        try {
+           const response = await axios(config)
+           parser.write(response.data);
+           parser.end();
+           res.send(respArray)
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+            // .then(function(response) {
+            // })
+            // .catch(function(error) {
+            // });
     });
 
     app.get('/*', function(req, res) {
