@@ -25,10 +25,9 @@ var routes = function(app, request) {
     });
 
     app.get('/content_images', function(req, res) {
-        const url = req.query.url
         axios({
             method: 'GET',
-            url: url,
+            url: req.query.url,
             headers: {
                 'Content-Type': 'application/json'
             }
