@@ -1,3 +1,22 @@
+const axios = require('axios');
+const htmlparser2 = require("htmlparser2");
+
+const respArray = []
+
+const parser = new htmlparser2.Parser({
+    onopentag(name, attributes) {
+        if (name === "img") {
+            respArray.push(attributes)
+        }
+    },
+});
+
+// const config = {
+//     method: 'GET',
+//     url: 'https://demo-detect-troll-images.glitch.me/',
+//     headers: {}
+// };
+
 var routes = function(app, request) {
 
     app.options('/*', function(req, res) {
@@ -5,24 +24,23 @@ var routes = function(app, request) {
         res.send({});
     });
 
-    app.get('/web_conent', function(req, res) {
-
-        var url = req.query.url
-        var options = {
+    app.get('/content_images', function(req, res) {
+        const url = req.query.url
+        axios({
             method: 'GET',
             url: url,
             headers: {
-                'Authorization': req.header('Authorization'),
-                'X-API-Version': req.header('X-API-Version') ? req.header('X-API-Version') : 2,
-                'X-Application': 'Proxy-Powered-By-LiveChat-L2-Team'
+                'Content-Type': 'application/json'
             }
-        };
-
-        request(options, function(error, response, body) {
-            res.status(response.statusCode);
-            res.set('Content-Type', response.headers['content-type']);
-            res.send(body);
-        });
+        })
+            .then(function(response) {
+                parser.write(response.data);
+                parser.end();
+                res.send(respArray)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     });
 
     app.get('/*', function(req, res) {
