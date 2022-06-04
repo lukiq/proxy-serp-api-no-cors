@@ -22,7 +22,7 @@ var routes = function(app, request) {
 
 let parser = new htmlparser2.Parser({
     onopentag(name, attributes) {
-        if (name === "img") {
+        if (name === "img" && attributes.src) {
             respArray.push(attributes)
         }
     },
