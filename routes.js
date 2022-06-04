@@ -34,7 +34,7 @@ var routes = function(app, request) {
 
         var options = {
             method: 'GET',
-            'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
+            url: 'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
             headers: {
                 'Authorization': req.header('Authorization'),
                 'X-API-Version': req.header('X-API-Version') ? req.header('X-API-Version') : 2,
@@ -57,7 +57,7 @@ var routes = function(app, request) {
 
         var options = {
             method: 'POST',
-            'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
+            url: 'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
             headers: {
                 'Authorization': req.header('Authorization'),
                 'X-API-Version': req.header('X-API-Version') ? req.header('X-API-Version') : 2,
@@ -95,7 +95,7 @@ var routes = function(app, request) {
 
         var options = {
             method: 'PUT',
-            'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
+            url: 'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
             headers: {
                 'Authorization': req.header('Authorization'),
                 'X-API-Version': req.header('X-API-Version') ? req.header('X-API-Version') : 2,
@@ -133,7 +133,7 @@ var routes = function(app, request) {
 
         var options = {
             method: 'DELETE',
-            'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
+            url: 'https://serpapi.com/search.json' + req.path + (query ? '?' : '') + query,
             headers: {
                 'Authorization': req.header('Authorization'),
                 'X-API-Version': req.header('X-API-Version') ? req.header('X-API-Version') : 2,
